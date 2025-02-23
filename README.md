@@ -48,7 +48,7 @@ npm install
 ```
 #### 🔹 Ejecutar el servidor
 ```sh
-node src/app.js
+node index.js
 ```
 📍 La aplicación estará disponible en `http://localhost:3000`.
 
