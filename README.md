@@ -12,7 +12,7 @@
 
 ###
 
-<h1 align="center">🐻 Iago Martínez González - Exámen 2 Evaluación 🐻 </h1>
+<h1 align="center">🐻 Iago Martínez González - Examen 2 Evaluación 🐻 </h1>
 
 ### 📌 Sobre el Proyecto
 **Pokémon App** es una aplicación desarrollada en **Node.js** y **Axios**, que permite obtener y visualizar datos de Pokémon a través de una API externa.
@@ -71,7 +71,7 @@ Cada vez que se suba código a `main`, GitHub Actions ejecutará pruebas y despl
 
 #### 🔹 Configuración en `.github/workflows/ci.yml`
 ```yaml
-name: CI/CD Pipeline
+name: Deploy Pokemon App
 
 on:
   push:
@@ -81,15 +81,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Clonar el repositorio
+      - name: Checkout del repositorio
         uses: actions/checkout@v3
 
-      - name: Instalar dependencias
-        run: npm install
+      - name: Iniciar sesión en Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Ejecutar pruebas
-        run: npm test
+      - name: Construir la imagen Docker
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/pokemon-app .
+
+      - name: Subir la imagen a Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/pokemon-app
+
 ```
 
 ---
